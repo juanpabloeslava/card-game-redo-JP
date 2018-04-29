@@ -27,7 +27,7 @@ function gameInit () {
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
 	// fill the deck
-	for (const cardClass of allCardClasses) {
+	for (const cardClass of shuffledClasses) {
 	    // create cards to insert in empty deck
         let card = document.createElement('li');
         // appends a card to the deck
@@ -57,18 +57,41 @@ function shuffle(array) {
 }
 
 //set up the event listener for a card.
-deck.addEventListener('click', openCard);
+deck.addEventListener('click', openCards);
 
-function openCard (e) {
+let openedCards = [];
+
+function openCards (e) {
 	// only run if click is on a card
 	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card'))) {
-		// show the card by adding .show .open classes 
-		e.target.classList.add('show', 'open');
-		// test on console
-		console.log(e.target);
+		// only run if there are less than two cards on openedCards[] to prevent users click several cards at the same time
+		if (openedCards.length < 2) {
+			// show the card by adding .show .open classes 
+			e.target.classList.add('show', 'open');
+			// add opened card to openCards [] array
+			openedCards.push(e.target);
+			// test on console
+			console.log(openedCards);
+			// remove cards from list if user opens 2
+			if (openedCards.length === 2) {
+				// wait  0.8 seconds so both cards appear opened for that amount of time before being closed.
+				setTimeout(closeCards, 800);
+			}
+		}
 	} else {
-		console.log('Did not clicked on card')
+		console.log('Did not click on card')
 	}
+}
+
+function closeCards () {
+	for (openedCard of openedCards) {
+		// close cards
+		openedCard.classList.remove('show','open');
+	}
+	// remove cards from the openedCards[] array (up to 4 cards in case there are more)
+	openedCards.splice(0, 4);	
+	// test on console
+	console.log(openedCards);
 }
 
 /*
