@@ -32,8 +32,8 @@ function gameInit () {
         let card = document.createElement('li');
         // appends a card to the deck
         deck.appendChild(card);
-        card.classList.add('card', 'show', 'open');    // to visualy test the cards on the screen
-        // card.classList.add('card');
+        // card.classList.add('card', 'show', 'open');    // to visualy test the cards on the screen
+        card.classList.add('card');
         // create symbols to put in the cards
         let cardSymbol = document.createElement('i');
         // appends symbol element to cards
@@ -56,6 +56,18 @@ function shuffle(array) {
     return array;
 }
 
+//set up the event listener for a card.
+deck.addEventListener('click', openCard);
+
+function openCard (e) {
+	// only run if click is on a card
+	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card'))) {
+		// test on console
+		console.log('Running openCard()');
+	} else {
+		console.log('Did not clicked on card')
+	}
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -67,4 +79,6 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
 
