@@ -62,8 +62,10 @@ deck.addEventListener('click', openCard);
 function openCard (e) {
 	// only run if click is on a card
 	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card'))) {
+		// show the card by adding .show .open classes 
+		e.target.classList.add('show', 'open');
 		// test on console
-		console.log('Running openCard()');
+		console.log(e.target);
 	} else {
 		console.log('Did not clicked on card')
 	}
