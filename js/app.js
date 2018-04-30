@@ -74,16 +74,25 @@ function openCards (e) {
 			console.log(openedCards);
 			// remove cards from list if user opens 2
 			if (openedCards.length === 2) {
-				// wait  0.8 seconds so both cards appear opened for that amount of time before being closed.
-				setTimeout(closeCards, 800);
+				// compare cards
+				compareCards();
 			}
 		}
 	} else {
-		console.log('Did not click on card')
+		console.log('Did not click on card');
 	}
 }
 
+function compareCards() {
+	// just test on console
+	console.log('Running compareCards()');
+	// wait  0.8 seconds so both cards appear opened for that amount of time before being closed.
+	setTimeout(closeCards, 800);
+}
+
 function closeCards () {
+	//test on console
+	console.log('running closeCards()');
 	for (openedCard of openedCards) {
 		// close cards
 		openedCard.classList.remove('show','open');
