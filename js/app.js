@@ -21,12 +21,15 @@ let deck = document.querySelector('.deck');
  *   - add each card's HTML to the page
  */
 function gameInit () {
-	// erase everything currently in deck, as well as in the lists
+	// erase everything currently in deck, as well as in the lists, and the move counter
 	deck.innerHTML = '';
 	openedCards = [];
 	matchedCards = [];
+	movesCount = 0;
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
+	// reset counter on screen
+	countDisplay.textContent = movesCount;
 	// fill the deck
 	for (const shuffledCard of shuffledClasses) {
 	    // create cards to insert in empty deck
@@ -97,10 +100,14 @@ function compareCards() {
 		console.log('Cards are the same!');
 		// match the cards
 		matchCards();
+		// add 1 move to the count
+		addCount();
 	} else {
 		console.log ('Cards are not the same!');
 		// wait  0.7 seconds so both cards appear opened for that amount of time before being closed.
 		setTimeout(closeCards, 700);
+		// add 1 move to the count
+		addCount();
 	}
 	
 }
@@ -125,7 +132,7 @@ function matchCards () {
 }
 
 function closeCards () {
-	//test on console
+	// test on console
 	console.log('running closeCards()');
 	for (openedCard of openedCards) {
 		// close cards
@@ -138,6 +145,18 @@ function closeCards () {
 	console.log(openedCards);
 }
 
+// Moves Counter
+let movesCount = 0;
+let countDisplay = document.getElementById('move-counter');
+
+
+function addCount () {
+	// increase count by 1
+	movesCount++;
+	console.log('Move count: ' + movesCount);
+	// display on screen
+	countDisplay.textContent = movesCount;
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
