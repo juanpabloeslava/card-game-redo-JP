@@ -1,5 +1,4 @@
-
-
+// initial game set up on page load
  document.addEventListener("DOMContentLoaded", gameInit);
 /*
  * Create a list that holds all of your cards
@@ -27,11 +26,12 @@ function gameInit () {
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
 	// fill the deck
-	for (const cardClass of shuffledClasses) {
+	for (const shuffledCard of shuffledClasses) {
 	    // create cards to insert in empty deck
         let card = document.createElement('li');
         // appends a card to the deck
         deck.appendChild(card);
+        // add card classes to created and appended cards
         // card.classList.add('card', 'show', 'open');    // to visualy test the cards on the screen
         card.classList.add('card');
         // create symbols to put in the cards
@@ -39,7 +39,7 @@ function gameInit () {
         // appends symbol element to cards
         card.appendChild(cardSymbol);
         // add shuffled classes to the symbol elements
-        cardSymbol.classList.add('fa', cardClass);
+        cardSymbol.classList.add('fa', shuffledCard);
     }
 }
 
@@ -71,6 +71,7 @@ function openCards (e) {
 			// add opened card to openCards [] array
 			openedCards.push(e.target);
 			// test on console
+			console.log('openedCards[]:');
 			console.log(openedCards);
 			// remove cards from list if user opens 2
 			if (openedCards.length === 2) {
@@ -84,10 +85,30 @@ function openCards (e) {
 }
 
 function compareCards() {
-	// just test on console
 	console.log('Running compareCards()');
-	// wait  0.8 seconds so both cards appear opened for that amount of time before being closed.
-	setTimeout(closeCards, 800);
+	if (openedCards[0].innerHTML === openedCards[1].innerHTML) {
+		console.log('Cards are the same!');
+		// match the cards
+		matchCards();
+	} else {
+		console.log ('Cards are not the same!');
+		// wait  0.7 seconds so both cards appear opened for that amount of time before being closed.
+		setTimeout(closeCards, 700);
+	}
+	
+}
+
+function matchCards () {
+	console.log('Running matchCards()');
+	// give the cards the .match class
+	for (openedCard of openedCards) {
+		// add the class to the elements on the openedCard[] list
+		openedCard.classList.remove('show','open');
+		openedCard.classList.add('match');
+	}
+	// remove cards from openedCards[] list
+	openedCards.splice(0, 2);	
+	// add cards to matchedCards[] list -- NOT YET DONE
 }
 
 function closeCards () {
@@ -98,8 +119,9 @@ function closeCards () {
 		openedCard.classList.remove('show','open');
 	}
 	// remove cards from the openedCards[] array (up to 4 cards in case there are more)
-	openedCards.splice(0, 4);	
+	openedCards.splice(0, 2);	
 	// test on console
+	console.log('openedCards[]:');
 	console.log(openedCards);
 }
 
