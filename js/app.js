@@ -60,6 +60,7 @@ function shuffle(array) {
 deck.addEventListener('click', openCards);
 
 let openedCards = [];
+let matchedCards = [];
 
 function openCards (e) {
 	// only run if click is on a card
@@ -105,10 +106,16 @@ function matchCards () {
 		// add the class to the elements on the openedCard[] list
 		openedCard.classList.remove('show','open');
 		openedCard.classList.add('match');
+		// add cards to matchedCards[] list -- NOT YET DONE
+		matchedCards.push(openedCard);
 	}
 	// remove cards from openedCards[] list
-	openedCards.splice(0, 2);	
-	// add cards to matchedCards[] list -- NOT YET DONE
+	openedCards.splice(0, 2);
+	// test on console
+	console.log('openedCards[]:');
+	console.log(openedCards);
+	console.log('matchedCards[]:');
+	console.log(matchedCards);
 }
 
 function closeCards () {
