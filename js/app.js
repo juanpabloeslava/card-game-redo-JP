@@ -148,7 +148,7 @@ function closeCards () {
 // Moves Counter
 let movesCount = 0;
 let countDisplay = document.getElementById('move-counter');
-
+const ratingStars = document.querySelector('.stars');
 
 function addCount () {
 	// increase count by 1
@@ -163,9 +163,9 @@ function addCount () {
 function checkRating () {
 	if (movesCount < 13) {
 		console.log('three stars!');
-	} else if (movesCount < 21) {
+	} else if ((movesCount >= 13) && (movesCount < 21)) {
 		console.log('two stars!');
-	} else {
+	} else if  (movesCount == 21) {
 		console.log('one star!');
 	}
 }
