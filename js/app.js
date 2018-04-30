@@ -156,6 +156,18 @@ function addCount () {
 	console.log('Move count: ' + movesCount);
 	// display on screen
 	countDisplay.textContent = movesCount;
+	// update player rating
+	checkRating();
+}
+
+function checkRating () {
+	if (movesCount < 13) {
+		console.log('three stars!');
+	} else if (movesCount < 21) {
+		console.log('two stars!');
+	} else {
+		console.log('one star!');
+	}
 }
 /*
  * set up the event listener for a card. If a card is clicked:
