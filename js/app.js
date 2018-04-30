@@ -21,8 +21,10 @@ let deck = document.querySelector('.deck');
  *   - add each card's HTML to the page
  */
 function gameInit () {
-	// erase everything currently in deck
+	// erase everything currently in deck, as well as in the lists
 	deck.innerHTML = '';
+	openedCards = [];
+	matchedCards = [];
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
 	// fill the deck
@@ -55,6 +57,10 @@ function shuffle(array) {
     }
     return array;
 }
+
+// restart game when pressing the restart button
+const restartButton = document.getElementById('restart-btn');
+restartButton.addEventListener('click', gameInit);
 
 //set up the event listener for a card.
 deck.addEventListener('click', openCards);
