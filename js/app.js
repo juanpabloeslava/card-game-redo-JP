@@ -89,11 +89,24 @@ function runTimer() {
 	Interval = setInterval(function() {
 		++sec;
 		// update seconds label
-		secDisplay.innerHTML = (sec % 60);
+		secDisplay.innerHTML = addZeroTimer(sec % 60);
 		// update minutes label
-		minDisplay.innerHTML = parseInt(sec / 60);
+		// Keine Ahnung why parseInt works, but that's what my dad recommended, and it does work, so I'll just let that pass. Life's too short.
+		minDisplay.innerHTML = addZeroTimer(parseInt(sec / 60));
 	}, 1000);
 }
+
+// add 0 if needed to the displayed timer (01:09 instead of 1:9)
+function addZeroTimer (val) {
+	// convert integers to string, to measure their lenght
+	var valString = val.toString();
+	// if .lenght is less than two, it means the number is in the single digits
+	if (valString.length < 2) {
+		return "0" + valString;
+	} else {
+		return valString;
+	}
+};
 
 /*
 function runTimer() {
