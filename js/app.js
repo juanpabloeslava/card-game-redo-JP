@@ -85,7 +85,24 @@ function runTimer() {
 	console.log('running timer');
 	// take out the event listener for the timer, so it doesn't run again everytime you click on a card
 	deck.removeEventListener('click', runTimer);
-	// 
+	// setInterval function (every second loop)
+	Interval = setInterval(function() {
+		sec++
+		if (sec <= 9) {
+			// display as 01-09, instead of just 0-9
+            seconds.innerHTML = "0" + sec; 
+        } else if (sec == 59) {
+        	// go back to 0 each time a minute passes
+            sec = 0;
+            // setTimeout only once every minute
+            setTimeout (function() {
+                min++;
+                minutes.innerHTML = min;
+            }, 1);
+        } else { 
+            seconds.innerHTML = sec;
+        }
+	}, 1000);
 
 }
 
