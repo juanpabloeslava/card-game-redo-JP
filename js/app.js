@@ -76,11 +76,26 @@ let matchedCards = [];
 
 // timer variables
 let timerCounter = document.getElementById('timeCounter');
-let minuDisplay = document.getElementById('minutes');
+let minDisplay = document.getElementById('minutes');
 let secDisplay = document.getElementById('seconds');
 let min = 0;
 let sec = 0;
 
+function runTimer() {
+	console.log('running timer');
+	// take out the event listener for the timer, so it doesn't run again everytime you click on a card
+	deck.removeEventListener('click', runTimer);
+	// setInterval function (every second loop)
+	Interval = setInterval(function() {
+		++sec;
+		// update seconds label
+		secDisplay.innerHTML = (sec % 60);
+		// update minutes label
+		minDisplay.innerHTML = parseInt(sec / 60);
+	}, 1000);
+}
+
+/*
 function runTimer() {
 	console.log('running timer');
 	// take out the event listener for the timer, so it doesn't run again everytime you click on a card
@@ -103,8 +118,8 @@ function runTimer() {
             seconds.innerHTML = sec;
         }
 	}, 1000);
-
 }
+*/
 
 function openCards (e) {
 	// only run if click is on a card
