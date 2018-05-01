@@ -67,15 +67,26 @@ function shuffle(array) {
 const restartButton = document.getElementById('restart-btn');
 restartButton.addEventListener('click', gameInit);
 
-//set up the event listener for a card.
+//open cards and start timer when a card is clicked
 deck.addEventListener('click', openCards);
 deck.addEventListener('click', runTimer);
 
 let openedCards = [];
 let matchedCards = [];
 
+// timer variables
+let timerCounter = document.getElementById('timeCounter');
+let minuDisplay = document.getElementById('minutes');
+let secDisplay = document.getElementById('seconds');
+let min = 0;
+let sec = 0;
+
 function runTimer() {
 	console.log('running timer');
+	// take out the event listener for the timer, so it doesn't run again everytime you click on a card
+	deck.removeEventListener('click', runTimer);
+	// 
+
 }
 
 function openCards (e) {
