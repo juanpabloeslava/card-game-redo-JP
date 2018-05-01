@@ -178,7 +178,6 @@ function checkRating () {
 }
 
 function resetRating () {
-	console.log('rating is reseting');
 	// empty stars (if any)
 	ratingStars.innerHTML = '';
 	// place the stars
