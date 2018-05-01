@@ -21,6 +21,8 @@ let deck = document.querySelector('.deck');
  *   - add each card's HTML to the page
  */
 function gameInit () {
+	// reset rating system
+	resetRating();
 	// erase everything currently in deck, as well as in the lists, and the move counter
 	deck.innerHTML = '';
 	openedCards = [];
@@ -67,9 +69,14 @@ restartButton.addEventListener('click', gameInit);
 
 //set up the event listener for a card.
 deck.addEventListener('click', openCards);
+deck.addEventListener('click', runTimer);
 
 let openedCards = [];
 let matchedCards = [];
+
+function runTimer() {
+	console.log('running timer');
+}
 
 function openCards (e) {
 	// only run if click is on a card
@@ -167,6 +174,23 @@ function checkRating () {
 		eachStar[0].remove();
 	} else if  (movesCount == 20) {
 		eachStar[1].remove()
+	}
+}
+
+function resetRating () {
+	console.log('rating is reseting');
+	// empty stars (if any)
+	ratingStars.innerHTML = '';
+	// place the stars
+	for (let stNum = 0; stNum < 3; stNum++) {
+		// create star items
+		let stItem = document.createElement('li');
+		let stSymbol = document.createElement('i');
+		// append star items to .stars <ul>
+		ratingStars.appendChild(stItem);
+		stItem.appendChild(stSymbol);
+		// style star items
+		stItem.classList.add('fa', 'fa-star');
 	}
 }
 /*
