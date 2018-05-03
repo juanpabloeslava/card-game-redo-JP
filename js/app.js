@@ -30,6 +30,10 @@ function gameInit () {
 	movesCount = 0;
 	sec = 0;
 	min = 0;
+	// set timer 
+	secDisplay.innerHTML = '00';
+	minDisplay.innerHTML = '00';
+	deck.addEventListener('click', timer);
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
 	// reset counter on screen
@@ -41,7 +45,6 @@ function gameInit () {
         // appends a card to the deck
         deck.appendChild(card);
         // add card classes to created and appended cards
-        // card.classList.add('card', 'show', 'open');    // to visualy test the cards on the screen
         card.classList.add('card');
         // create symbols to put in the cards
         let cardSymbol = document.createElement('i');
@@ -51,7 +54,6 @@ function gameInit () {
         cardSymbol.classList.add('fa', shuffledCard);
     }
 }
-
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -64,20 +66,18 @@ function shuffle(array) {
     }
     return array;
 }
-
 // restart game when pressing the restart button
 const restartButton = document.getElementById('restart-btn');
 restartButton.addEventListener('click', gameInit);
 
+
 //open cards and start timer when a card is clicked
 deck.addEventListener('click', openCards);
-// deck.addEventListener('click', runTimer);
-// deck.addEventListener('click', runTimer2);
 // deck.addEventListener('click', timer);
 
 let openedCards = [];
 let matchedCards = [];
-
+let firstMove = 0;
 // timer variables
 let timerCounter = document.getElementById('timeCounter');
 let minDisplay = document.getElementById('minutes');
@@ -86,7 +86,9 @@ let min = 0;
 let sec = 0;
 
 function timer () {
-	// don't declare timerInterval as a normal variable (?)
+	// remove eventListener so it won't go off everytime a card is clicked
+	deck.removeEventListener('click', timer);
+	// won't work if declared as a normal var
 	timerInterval = setInterval (function (){
 		// check the seconds
 		if (sec < 59) {
@@ -94,7 +96,7 @@ function timer () {
 		} else {
 			sec = 0;
 			min++;
-		}
+		}	
 		// update seconds and minutes label
 		secDisplay.innerHTML = addZeroTimer(sec);
 		minDisplay.innerHTML = addZeroTimer(min);
@@ -113,79 +115,9 @@ function addZeroTimer (val) {
 	}
 }
 
-/*
-function runTimer2 () {
-	// remove eventListener so it doesn't go off with every card click
-	deck.removeEventListener('click', runTimer2);
-	// declare an Interval
-	let timerInterval = setInterval (function() {
-		displayTime();
-		console.log('displayTime()');
-	}, 1000);
-	function displayTime () {
-		// check the seconds
-		if (sec < 59) {
-			sec++;
-		} else {
-			sec = 0;
-			min++;
-		}
-		// update seconds and minutes label
-		secDisplay.innerHTML = addZeroTimer2(sec);
-		minDisplay.innerHTML = addZeroTimer2(min);
-	}
-	function stopTimer () {
-		clearInterval(timerInterval);
-	}
-}
-
-// add 0 if needed to the displayed timer (01:09 instead of 1:9)
-function addZeroTimer2 (val) {
-	// convert integers to string, to measure their lenght
-	let valString = val.toString();
-	// if .lenght is less than two, it means the number is in the single digits
-	if (valString.length < 2) {
-		return "0" + valString;
-	} else {
-		return valString;
-	}
-}
-*/
-
-/*
-function runTimer() {
-	console.log('running timer');
-	// take out the event listener for the timer, so it doesn't run again everytime you click on a card
-	deck.removeEventListener('click', runTimer);
-	// setInterval function (every second loop)
-	Interval = setInterval(function() {
-		sec++;
-		// update seconds label
-		// secDisplay.innerHTML = addZeroTimer(sec);
-		secDisplay.innerHTML = addZeroTimer(sec % 60);
-		// update minutes label
-		// Keine Ahnung why parseInt works, but that's what my dad recommended, and it does work, so I'll just let that pass. Life's too short.
-		minDisplay.innerHTML = addZeroTimer(parseInt(sec / 60));
-	}, 200);
-}
-// add 0 if needed to the displayed timer (01:09 instead of 1:9)
-function addZeroTimer (val) {
-    // convert integers to string, to measure their lenght
-    var valString = val.toString();
-    // if .lenght is less than two, it means the number is in the single digits
-    if (valString.length < 2) {
-        return "0" + valString;
-    } else {
-        return valString;
-    }
-}
-*/
-
 function openCards (e) {
 	// only run if click is on a card
 	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card'))) {
-		// first thing to do, run the timer
-		timer();
 		// only run if there are less than two cards on openedCards[] to prevent users click several cards at the same time
 		if (openedCards.length < 2) {
 			// show the card by adding .show .open classes 
@@ -236,6 +168,12 @@ function matchCards () {
 	}
 	// remove cards from openedCards[] list
 	openedCards.splice(0, 2);
+	// check if won
+	if (matchedCards.length == 16) {
+		// take out interval
+		clearInterval(timerInterval);
+		console.log('you won!');
+	}
 	// test on console
 	console.log('openedCards[]:');
 	console.log(openedCards);
