@@ -28,6 +28,8 @@ function gameInit () {
 	openedCards = [];
 	matchedCards = [];
 	movesCount = 0;
+	sec = 0;
+	min = 0;
 	// shuffle cards
 	let shuffledClasses = shuffle(allCardClasses);
 	// reset counter on screen
@@ -69,7 +71,8 @@ restartButton.addEventListener('click', gameInit);
 
 //open cards and start timer when a card is clicked
 deck.addEventListener('click', openCards);
-deck.addEventListener('click', runTimer);
+// deck.addEventListener('click', runTimer);
+deck.addEventListener('click', runTimer2);
 
 let openedCards = [];
 let matchedCards = [];
@@ -80,6 +83,12 @@ let minDisplay = document.getElementById('minutes');
 let secDisplay = document.getElementById('seconds');
 let min = 0;
 let sec = 0;
+let isTimeRunning = false;
+
+let timerInterval = setInterval (function() {
+	displayTime();
+	console.log('displayTime()');
+}, 200);
 
 function runTimer() {
 	console.log('running timer');
@@ -87,26 +96,73 @@ function runTimer() {
 	deck.removeEventListener('click', runTimer);
 	// setInterval function (every second loop)
 	Interval = setInterval(function() {
-		++sec;
+		sec++;
 		// update seconds label
+		// secDisplay.innerHTML = addZeroTimer(sec);
 		secDisplay.innerHTML = addZeroTimer(sec % 60);
 		// update minutes label
 		// Keine Ahnung why parseInt works, but that's what my dad recommended, and it does work, so I'll just let that pass. Life's too short.
 		minDisplay.innerHTML = addZeroTimer(parseInt(sec / 60));
-	}, 1000);
+	}, 200);
 }
 
-// add 0 if needed to the displayed timer (01:09 instead of 1:9)
-function addZeroTimer (val) {
-	// convert integers to string, to measure their lenght
-	var valString = val.toString();
-	// if .lenght is less than two, it means the number is in the single digits
-	if (valString.length < 2) {
-		return "0" + valString;
-	} else {
-		return valString;
+function stopTimer () {
+	clearInterval(timerInterval);
+}
+
+function runTimer2 () {
+	// remove eventListener so it doesn't go off with every card click
+	deck.removeEventListener('click', runTimer2);
+	// declare the interval
+	let timerInterval;
+	// check if the time is running
+	if (isTimeRunning == false) {
+		// test on console
+		console.log('runTimer2()');
+		// start running the timer display
+		timerInterval = setInterval (function() {
+			displayTime();
+			console.log('displayTime()');
+		}, 200);
+		// set the variable to true
+		isTimeRunning = true;
+		console.log (isTimeRunning);
+	} else if (isTimeRunning == true) {
+		// test on console
+		console.log('stop runTimer2()');
+		// stop the times display
+		stopTimer;
+		// set the variable to false
+		isTimeRunning = false;
 	}
-};
+
+	
+	function displayTime () {
+		// check the seconds
+		if (sec < 59) {
+			sec++;
+		} else {
+			sec = 0;
+			min++;
+		}
+		// update seconds and minutes label
+		secDisplay.innerHTML = addZeroTimer2(sec);
+		minDisplay.innerHTML = addZeroTimer2(min);
+	}
+
+	// add 0 if needed to the displayed timer (01:09 instead of 1:9)
+	function addZeroTimer2 (val) {
+		// convert integers to string, to measure their lenght
+		let valString = val.toString();
+		// if .lenght is less than two, it means the number is in the single digits
+		if (valString.length < 2) {
+			return "0" + valString;
+		} else {
+			return valString;
+		}
+	}
+	
+}
 
 function openCards (e) {
 	// only run if click is on a card
