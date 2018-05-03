@@ -116,8 +116,8 @@ function addZeroTimer (val) {
 }
 
 function openCards (e) {
-	// only run if click is on a card
-	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card'))) {
+	// only run if click is on a card AND if second click isn't on an already opened card
+	if ((e.target.nodeName === 'LI') && (e.target.classList.contains('card')) && (!e.target.classList.contains('open'))) {
 		// only run if there are less than two cards on openedCards[] to prevent users click several cards at the same time
 		if (openedCards.length < 2) {
 			// show the card by adding .show .open classes 
