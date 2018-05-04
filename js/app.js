@@ -157,10 +157,10 @@ function compareCards() {
 	console.log('Running compareCards()');
 	if (openedCards[0].innerHTML === openedCards[1].innerHTML) {
 		console.log('Cards are the same!');
-		// match the cards
-		matchCards();
 		// add 1 move to the count
 		addCount();
+		// match the cards
+		matchCards();
 	} else {
 		console.log ('Cards are not the same!');
 		// wait  0.7 seconds so both cards appear opened for that amount of time before being closed.
@@ -228,10 +228,10 @@ function addCount () {
 
 function checkRating () {
 	// when movesCount gets to 12, take a star. When it gets to 20, take another
-	if (movesCount == 12) {
+	if (movesCount == 13) {
 		eachStar[0].remove();
 		totalStars--;
-	} else if  (movesCount == 20) {
+	} else if  (movesCount == 19) {
 		eachStar[1].remove()
 		totalStars--;
 	}
