@@ -146,6 +146,8 @@ h1 {
     font-size: 20px;
 }
 
+#win-text { text-align: center; }
+
 #play-again-btn {
     background-color: : red;
     border: none;

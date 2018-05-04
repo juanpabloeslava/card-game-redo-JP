@@ -21,6 +21,8 @@ let deck = document.querySelector('.deck');
  *   - add each card's HTML to the page
  */
 function gameInit () {
+	// hide winScreen
+	winScreen.setAttribute ('style', 'display: none;');
 	// reset everything but time 
 	resetRating();
 	deck.innerHTML = '';
@@ -29,6 +31,7 @@ function gameInit () {
 	movesCount = 0;
 	sec = 0;
 	min = 0;
+	totalStars = 3;
 	// set timer 
 	secDisplay.innerHTML = '00';
 	minDisplay.innerHTML = '00';
@@ -67,9 +70,11 @@ function shuffle(array) {
 }
 // restart game when pressing the restart button
 const restartButton = document.querySelector('#restart-btn');
-const restartButton2 = document.querySelector('#restart-btn2');
+const restartButton2 = document.querySelector('#play-again-btn');
 restartButton.addEventListener('click', gameInit);
 restartButton.addEventListener('click', resetTimer);
+restartButton2.addEventListener('click', gameInit);
+restartButton2.addEventListener('click', resetTimer);
 
 
 //open cards and start timer when a card is clicked
@@ -180,9 +185,8 @@ function matchCards () {
 	openedCards.splice(0, 2);
 	// check if won
 	if (matchedCards.length == 16) {
-		// take out interval
-		clearInterval(timerInterval);
-		console.log('you won!');
+		// player wins
+		youWin();
 	}
 	// test on console
 	console.log('openedCards[]:');
@@ -210,6 +214,7 @@ let movesCount = 0;
 let countDisplay = document.getElementById('move-counter');
 const ratingStars = document.querySelector('.stars');
 let eachStar = ratingStars.children;
+let totalStars = 3;
 
 function addCount () {
 	// increase count by 1
@@ -225,8 +230,10 @@ function checkRating () {
 	// when movesCount gets to 12, take a star. When it gets to 20, take another
 	if (movesCount == 12) {
 		eachStar[0].remove();
+		totalStars--;
 	} else if  (movesCount == 20) {
 		eachStar[1].remove()
+		totalStars--;
 	}
 }
 
@@ -244,6 +251,24 @@ function resetRating () {
 		// style star items
 		stItem.classList.add('fa', 'fa-star');
 	}
+}
+
+const winScreen = document.querySelector('.win-screen');
+let winText = document.querySelector('#win-text');
+
+function youWin () {
+	// take out interval
+	clearInterval(timerInterval);
+	// show message
+	// winScreen.setAttribute ('style', 'display: block;');
+	winScreen.style.display = 'block';
+	// update message content
+	winText.innerText =  `Congratulations, you've won!
+
+	Your time : ${addZeroTimer(min)} : ${addZeroTimer(sec)}
+	Number of moves : ${movesCount}
+
+	That gives you   ${totalStars} / 3 stars!`;
 }
 /*
  * set up the event listener for a card. If a card is clicked:
