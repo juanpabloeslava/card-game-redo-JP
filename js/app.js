@@ -21,9 +21,8 @@ let deck = document.querySelector('.deck');
  *   - add each card's HTML to the page
  */
 function gameInit () {
-	// reset rating system
+	// reset everything but time 
 	resetRating();
-	// erase everything currently in deck, as well as in the lists, and the move counter
 	deck.innerHTML = '';
 	openedCards = [];
 	matchedCards = [];
@@ -67,8 +66,10 @@ function shuffle(array) {
     return array;
 }
 // restart game when pressing the restart button
-const restartButton = document.getElementById('restart-btn');
+const restartButton = document.querySelector('#restart-btn');
+const restartButton2 = document.querySelector('#restart-btn2');
 restartButton.addEventListener('click', gameInit);
+restartButton.addEventListener('click', resetTimer);
 
 
 //open cards and start timer when a card is clicked
@@ -101,6 +102,15 @@ function timer () {
 		secDisplay.innerHTML = addZeroTimer(sec);
 		minDisplay.innerHTML = addZeroTimer(min);
 	}, 1000); 
+}
+
+function resetTimer () {
+	clearInterval(timerInterval);
+	sec = 0;
+	min = 0;
+	// update seconds and minutes label
+	secDisplay.innerHTML = addZeroTimer(sec);
+	minDisplay.innerHTML = addZeroTimer(min);
 }
 
 // add 0 if needed to the displayed timer (01:09 instead of 1:9)
